@@ -9,13 +9,21 @@ const WHATSAPP_PHONE_NUMBER = "94786788925";
 
 if (projectEnquiryForm instanceof HTMLFormElement) {
   const packageField = projectEnquiryForm.elements.namedItem("package");
-  const requestedPackage = new URLSearchParams(window.location.search).get("package");
+  const maintenanceField = projectEnquiryForm.elements.namedItem("maintenance");
+  const query = new URLSearchParams(window.location.search);
+  const requestedPackage = query.get("package");
   const packageOptions = {
     starter: "Starter",
     growth: "Growth",
     custom: "Custom",
-    maintenance: "Website Maintenance",
   };
+
+  if (
+    maintenanceField instanceof HTMLInputElement &&
+    (query.get("maintenance") === "yes" || requestedPackage?.toLowerCase() === "maintenance")
+  ) {
+    maintenanceField.checked = true;
+  }
 
   if (
     packageField instanceof HTMLSelectElement &&
@@ -34,16 +42,17 @@ if (projectEnquiryForm instanceof HTMLFormElement) {
 
     const formData = new FormData(projectEnquiryForm);
     const selectedPackage = formData.get("package");
+    const maintenanceRequested = formData.has("maintenance");
     const message = [
-      selectedPackage === "Website Maintenance"
-        ? "Hi twopagesites, I'd like to discuss website maintenance."
+      maintenanceRequested
+        ? "Hi twopagesites, I'd like to discuss a website project and ongoing maintenance."
         : "Hi twopagesites, I'd like to discuss a website project.",
       "",
       `Name: ${formData.get("name")}`,
       `Business: ${formData.get("business")}`,
       `Email: ${formData.get("email")}`,
-      `Package / service: ${selectedPackage}`,
-      `Project details: ${formData.get("details")}`,
+      `Website package: ${selectedPackage}`,
+      `Website maintenance: ${maintenanceRequested ? "Yes, please discuss options." : "No, not at this time."}`,
     ].join("\n");
 
     window.location.assign(
