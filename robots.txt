@@ -1,0 +1,5 @@
+
+User-agent: *
+Allow: /
+
+Sitemap: https://twopagesites.pereradinuth7.workers.dev/sitemap.xml
