@@ -50,7 +50,7 @@ if (projectEnquiryForm instanceof HTMLFormElement) {
       "",
       `Name: ${formData.get("name")}`,
       `Business: ${formData.get("business")}`,
-      `Email: ${formData.get("email")}`,
+      `Email: ${formData.get("email") || "Not provided"}`,
       `Website package: ${selectedPackage}`,
       `Website maintenance: ${maintenanceRequested ? "Yes, please discuss options." : "No, not at this time."}`,
     ].join("\n");
